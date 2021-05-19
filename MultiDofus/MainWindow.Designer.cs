@@ -29,34 +29,38 @@ namespace MultiDofus
         /// </summary>
         private void InitializeComponent()
         {
-            this.ListeBtn = new System.Windows.Forms.FlowLayoutPanel();
+            this.ListeBtn = new System.Windows.Forms.TableLayoutPanel();
             this.SuspendLayout();
             // 
             // ListeBtn
             // 
-            this.ListeBtn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ListeBtn.Location = new System.Drawing.Point(0, 0);
+            this.ListeBtn.ColumnCount = 1;
+            this.ListeBtn.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.ListeBtn.Location = new System.Drawing.Point(98, 12);
             this.ListeBtn.Name = "ListeBtn";
-            this.ListeBtn.Size = new System.Drawing.Size(740, 129);
+            this.ListeBtn.RowCount = 1;
+            this.ListeBtn.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.ListeBtn.Size = new System.Drawing.Size(80, 356);
             this.ListeBtn.TabIndex = 0;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(740, 129);
+            this.ClientSize = new System.Drawing.Size(278, 380);
             this.Controls.Add(this.ListeBtn);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.Text = "Multi Dofus";
+            this.TopMost = true;
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel ListeBtn;
+        private System.Windows.Forms.TableLayoutPanel ListeBtn;
     }
 }
 
