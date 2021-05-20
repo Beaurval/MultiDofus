@@ -31,7 +31,7 @@ namespace MultiDofus
             //Sizing
             this.ListeBtn.Height = 60 * (_personnages.Count);
             this.ListeBtn.Width = this.Width = this.topBar.Width = 60;
-            this.Height = ListeBtn.Height + topBar.Height + 10;
+            this.Height = 60 * (_personnages.Count) + topBar.Height + 10;
             this.Width = ListeBtn.Width + 20;
             
             //margin
@@ -65,6 +65,7 @@ namespace MultiDofus
                 btn.AutoSize = true;
                 btn.BackgroundImage = ((Image)(Properties.Resources.Feca));
                 btn.BackgroundImageLayout = ImageLayout.Center;
+                
 
                 btn.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom);
                 btn.Margin = new Padding(0, 0, 0, 0);
