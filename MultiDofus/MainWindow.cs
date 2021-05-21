@@ -14,19 +14,18 @@ namespace MultiDofus
 {
     public partial class MainWindow : Form
     {
-        [DllImport("user32.dll")]
-        static extern IntPtr DefWindowProc(IntPtr hWnd, uint uMsg, UIntPtr wParam, IntPtr lParam);
-        [DllImport("user32.dll")]
-        static extern bool ReleaseCapture(IntPtr hwnd);
+        private KeyHandler ghk;
 
-        const uint WM_SYSCOMMAND = 0x112;
-        const uint MOUSE_MOVE = 0xF012;
-
+        //Liste des personnages
         private readonly List<Perso> _personnages;
+
         public MainWindow(List<Perso> personnages)
         {
             _personnages = personnages;
             InitializeComponent();
+
+            ghk = new KeyHandler(Keys.Tab, this);
+            ghk.Register();
 
             //Sizing
             this.ListeBtn.Height = 60 * (_personnages.Count);
@@ -46,8 +45,6 @@ namespace MultiDofus
 
             ListeBtn.RowCount = _personnages.Count;
             ListeBtn.ColumnCount = 1;
-
-            
 
             ListeBtn.ColumnStyles[0].SizeType = SizeType.Absolute;
             ListeBtn.ColumnStyles[0].Width = 60;
@@ -73,28 +70,26 @@ namespace MultiDofus
             }
 
         }
-
-        // ----------- MOUSE CONTROL TOP BAR
-        public void DragMe()
+        private void HandleHotkey()
         {
-            DefWindowProc(this.Handle, WM_SYSCOMMAND, (UIntPtr)MOUSE_MOVE, IntPtr.Zero);
+            AppControl.switchToNextPerso(_personnages);
         }
+
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == Constants.WM_HOTKEY_MSG_ID)
+                HandleHotkey();
+            base.WndProc(ref m);
+        }
+
         private void holdTopBar(object sender, MouseEventArgs e)
         {
-            Control ctl = sender as Control;
-
-            // when we get a buttondown message from a button control
-            // the button has capture, we need to release capture so
-            // or DragMe() won't work.
-            ReleaseCapture(ctl.Handle);
-
-            this.DragMe(); // put the form into mousedrag mode.
+            AppControl.TopBarHolded(this, sender);
         }
-        // ----------- MOUSE CONTROL TOP BAR ////
 
         private void openWindow_Click(object sender, EventArgs e, Perso perso)
         {
-            user32.SwitchToThisWindow(perso.ProcessHandler, true);
+            AppControl.openPersoWindow(perso);
         }
     }
 }
