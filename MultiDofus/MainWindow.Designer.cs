@@ -31,7 +31,9 @@ namespace MultiDofus
         {
             this.ListeBtn = new System.Windows.Forms.TableLayoutPanel();
             this.topBar = new System.Windows.Forms.Panel();
+            this.optionBtn = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.topBar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,11 +53,23 @@ namespace MultiDofus
             // 
             // topBar
             // 
+            this.topBar.Controls.Add(this.optionBtn);
             this.topBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.topBar.Location = new System.Drawing.Point(3, 3);
             this.topBar.Name = "topBar";
             this.topBar.Size = new System.Drawing.Size(54, 20);
             this.topBar.TabIndex = 1;
+            // 
+            // optionBtn
+            // 
+            this.optionBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.optionBtn.Location = new System.Drawing.Point(32, 0);
+            this.optionBtn.Name = "optionBtn";
+            this.optionBtn.Size = new System.Drawing.Size(22, 20);
+            this.optionBtn.TabIndex = 0;
+            this.optionBtn.Text = "button1";
+            this.optionBtn.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
             // 
@@ -87,6 +101,7 @@ namespace MultiDofus
             this.Name = "MainWindow";
             this.Text = "Multi Dofus";
             this.TopMost = true;
+            this.topBar.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -97,6 +112,7 @@ namespace MultiDofus
         private System.Windows.Forms.TableLayoutPanel ListeBtn;
         private System.Windows.Forms.Panel topBar;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button optionBtn;
     }
 }
 

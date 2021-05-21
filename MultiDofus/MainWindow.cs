@@ -32,7 +32,7 @@ namespace MultiDofus
             this.ListeBtn.Width = this.Width = this.topBar.Width = 60;
             this.Height = 60 * (_personnages.Count) + topBar.Height + 15;
             this.Width = ListeBtn.Width + 20;
-            
+
             //margin
             this.topBar.Margin = new Padding(0, 0, 0, 5);
             this.ListeBtn.Margin = new Padding(0, 0, 0, 5);
@@ -42,6 +42,10 @@ namespace MultiDofus
             this.ListeBtn.BackColor = Color.FromArgb(25, 26, 17);
             this.topBar.BackColor = Color.FromArgb(58, 59, 59);
             this.topBar.MouseDown += new MouseEventHandler(holdTopBar);
+            this.optionBtn.BackColor = Color.FromArgb(199, 238, 2);
+            optionBtn.FlatStyle = FlatStyle.Flat;
+            optionBtn.FlatAppearance.BorderColor = Color.FromArgb(99, 134, 1);
+            optionBtn.FlatAppearance.BorderSize = 1;
 
             ListeBtn.RowCount = _personnages.Count;
             ListeBtn.ColumnCount = 1;
@@ -52,7 +56,7 @@ namespace MultiDofus
             for (int i = 0; i < _personnages.Count; i++)
             {
                 var perso = _personnages[i];
-                ListeBtn.RowStyles.Add(new RowStyle(SizeType.Absolute, 60));     
+                ListeBtn.RowStyles.Add(new RowStyle(SizeType.Absolute, 60));
 
                 Button btn = new Button();
                 btn.BackColor = Color.FromArgb(80, 80, 80);
@@ -62,7 +66,7 @@ namespace MultiDofus
                 btn.AutoSize = true;
                 btn.BackgroundImage = ((Image)(Properties.Resources.Feca));
                 btn.BackgroundImageLayout = ImageLayout.Center;
-                
+
 
                 btn.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom);
                 btn.Margin = new Padding(0, 0, 0, 0);
