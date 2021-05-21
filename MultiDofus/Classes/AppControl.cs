@@ -53,5 +53,11 @@ namespace MultiDofus.Classes
 
             AppControl.DragMe(main); // put the form into mousedrag mode.
         }
+
+        public static void ChangeFocusBtn(TableLayoutPanel layout)
+        {
+            layout.Controls[lastPersoSelectedIndex].Focus();
+            layout.Refresh();
+        }
     }
 }

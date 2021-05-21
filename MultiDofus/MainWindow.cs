@@ -30,7 +30,7 @@ namespace MultiDofus
             //Sizing
             this.ListeBtn.Height = 60 * (_personnages.Count);
             this.ListeBtn.Width = this.Width = this.topBar.Width = 60;
-            this.Height = 60 * (_personnages.Count) + topBar.Height + 10;
+            this.Height = 60 * (_personnages.Count) + topBar.Height + 15;
             this.Width = ListeBtn.Width + 20;
             
             //margin
@@ -73,6 +73,7 @@ namespace MultiDofus
         private void HandleHotkey()
         {
             AppControl.switchToNextPerso(_personnages);
+            AppControl.ChangeFocusBtn(ListeBtn);
         }
 
         protected override void WndProc(ref Message m)
