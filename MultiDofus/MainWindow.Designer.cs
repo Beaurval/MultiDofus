@@ -64,11 +64,11 @@ namespace MultiDofus
             // 
             this.optionBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.optionBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.optionBtn.Location = new System.Drawing.Point(32, 0);
             this.optionBtn.Name = "optionBtn";
             this.optionBtn.Size = new System.Drawing.Size(22, 20);
             this.optionBtn.TabIndex = 0;
-            this.optionBtn.Text = "button1";
             this.optionBtn.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1

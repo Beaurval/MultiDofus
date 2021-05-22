@@ -43,6 +43,13 @@ namespace MultiDofus
             this.topBar.BackColor = Color.FromArgb(58, 59, 59);
             this.topBar.MouseDown += new MouseEventHandler(holdTopBar);
             this.optionBtn.BackColor = Color.FromArgb(199, 238, 2);
+
+            //Style            
+            var bm = new Bitmap(((Image)(Properties.Resources.gear)), new Size(optionBtn.Width - 6, optionBtn.Height - 8));
+            optionBtn.BackgroundImage = bm;
+            optionBtn.Text = null;
+            optionBtn.BackgroundImageLayout = ImageLayout.Center;
+
             optionBtn.FlatStyle = FlatStyle.Flat;
             optionBtn.FlatAppearance.BorderColor = Color.FromArgb(99, 134, 1);
             optionBtn.FlatAppearance.BorderSize = 1;
