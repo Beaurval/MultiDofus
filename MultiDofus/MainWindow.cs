@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -15,14 +16,16 @@ namespace MultiDofus
     public partial class MainWindow : Form
     {
         private KeyHandler ghk;
+        private ConfigurationWindow _configurationWindow;
 
         //Liste des personnages
-        private readonly List<Perso> _personnages;
+        public readonly List<Perso> _personnages;
 
         public MainWindow(List<Perso> personnages)
         {
             _personnages = personnages;
             InitializeComponent();
+            _configurationWindow = new ConfigurationWindow(this);
 
             ghk = new KeyHandler(Keys.Tab, this);
             ghk.Register();
@@ -84,13 +87,15 @@ namespace MultiDofus
         private void HandleHotkey()
         {
             AppControl.switchToNextPerso(_personnages);
-            AppControl.ChangeFocusBtn(ListeBtn);
+            AppControl.ChangeFocusBtn(ListeBtn);                
         }
 
         protected override void WndProc(ref Message m)
         {
             if (m.Msg == Constants.WM_HOTKEY_MSG_ID)
                 HandleHotkey();
+
+                
             base.WndProc(ref m);
         }
 
@@ -102,6 +107,12 @@ namespace MultiDofus
         private void openWindow_Click(object sender, EventArgs e, Perso perso)
         {
             AppControl.openPersoWindow(perso);
+        }
+
+        private void optionBtn_Click(object sender, EventArgs e)
+        {
+            this.TopMost = false;
+            _configurationWindow.Show();
         }
     }
 }

@@ -14,6 +14,7 @@ namespace MultiDofus.Classes
         public const int CTRL = 0x0002;
         public const int SHIFT = 0x0004;
         public const int WIN = 0x0008;
+        public const int WM_KEYDOW = 0x0100;
 
 
         //windows message id for hotkey

@@ -25,6 +25,7 @@ namespace MultiDofus
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainWindow(user32.RecupererLesPersonnagesEnJeu()));
+            //Application.Run(new ConfigurationWindow());
         }
     }
 }

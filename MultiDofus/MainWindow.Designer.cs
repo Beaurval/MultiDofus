@@ -70,6 +70,7 @@ namespace MultiDofus
             this.optionBtn.Size = new System.Drawing.Size(22, 20);
             this.optionBtn.TabIndex = 0;
             this.optionBtn.UseVisualStyleBackColor = true;
+            this.optionBtn.Click += new System.EventHandler(this.optionBtn_Click);
             // 
             // tableLayoutPanel1
             // 
