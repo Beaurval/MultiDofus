@@ -17,21 +17,12 @@ namespace MultiDofus
     public partial class MainWindow : Form
     {
         private ConfigurationWindow _configurationWindow;
-        KeyboardHookManager keyboardHookManager = new KeyboardHookManager();
-                                                       
-
+        
         //Liste des personnages
         public readonly List<Perso> _personnages;
 
         public MainWindow(List<Perso> personnages)
         {
-            keyboardHookManager.Start();
-            keyboardHookManager.RegisterHotkey(0x09, () =>
-            {
-                AppControl.switchToNextPerso(_personnages);
-                AppControl.ChangeFocusBtn(ListeBtn);
-            });
-
             _personnages = personnages;
             InitializeComponent();
             _configurationWindow = new ConfigurationWindow(this);
@@ -89,7 +80,10 @@ namespace MultiDofus
 
         }
 
-
+        public TableLayoutPanel GetListePersoControl()
+        {
+            return ListeBtn;
+        }
 
         private void holdTopBar(object sender, MouseEventArgs e)
         {
@@ -109,7 +103,7 @@ namespace MultiDofus
 
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
-            keyboardHookManager.Stop();
+            _configurationWindow.keyboardHookManager.Stop();
         }
     }
 }
