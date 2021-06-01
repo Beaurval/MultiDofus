@@ -21,7 +21,7 @@ namespace MultiDofus.Classes
 
         public static void switchToNextPerso(List<Perso> persos)
         {
-            if (persos.Count - 1 == lastPersoSelectedIndex)
+                if (persos.Count - 1 == lastPersoSelectedIndex)
                 lastPersoSelectedIndex = 0;
             else
                 lastPersoSelectedIndex++;
@@ -52,12 +52,15 @@ namespace MultiDofus.Classes
             ReleaseCapture(ctl.Handle);
 
             AppControl.DragMe(main); // put the form into mousedrag mode.
-        }
+        }                                                                       
 
         public static void ChangeFocusBtn(TableLayoutPanel layout)
         {
-            layout.Controls[lastPersoSelectedIndex].Focus();
-            layout.Refresh();
+            layout.Invoke(new MethodInvoker(delegate
+            {
+                layout.Controls[lastPersoSelectedIndex].Focus();
+                layout.Refresh();
+            }));
         }
     }
 }

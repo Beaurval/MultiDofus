@@ -10,35 +10,41 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NonInvasiveKeyboardHookLibrary;
 
 namespace MultiDofus
 {
     public partial class MainWindow : Form
     {
-        private KeyHandler ghk;
         private ConfigurationWindow _configurationWindow;
+        KeyboardHookManager keyboardHookManager = new KeyboardHookManager();
+                                                       
 
         //Liste des personnages
         public readonly List<Perso> _personnages;
 
         public MainWindow(List<Perso> personnages)
         {
+            keyboardHookManager.Start();
+            keyboardHookManager.RegisterHotkey(0x09, () =>
+            {
+                AppControl.switchToNextPerso(_personnages);
+                AppControl.ChangeFocusBtn(ListeBtn);
+            });
+
             _personnages = personnages;
             InitializeComponent();
             _configurationWindow = new ConfigurationWindow(this);
 
-            ghk = new KeyHandler(Keys.Tab, this);
-            ghk.Register();
 
             //Sizing
             this.ListeBtn.Height = 60 * (_personnages.Count);
-            this.ListeBtn.Width = this.Width = this.topBar.Width = 60;
             this.Height = 60 * (_personnages.Count) + topBar.Height + 15;
-            this.Width = ListeBtn.Width + 20;
+            this.Width = 85;
 
             //margin
             this.topBar.Margin = new Padding(0, 0, 0, 5);
-            this.ListeBtn.Margin = new Padding(0, 0, 0, 5);
+            this.ListeBtn.Margin = new Padding(5, 0, 5, 5);
 
             //Color
             this.BackColor = Color.FromArgb(25, 26, 17);
@@ -60,8 +66,7 @@ namespace MultiDofus
             ListeBtn.RowCount = _personnages.Count;
             ListeBtn.ColumnCount = 1;
 
-            ListeBtn.ColumnStyles[0].SizeType = SizeType.Absolute;
-            ListeBtn.ColumnStyles[0].Width = 60;
+            
 
             for (int i = 0; i < _personnages.Count; i++)
             {
@@ -70,7 +75,6 @@ namespace MultiDofus
 
                 Button btn = new Button();
                 btn.BackColor = Color.FromArgb(80, 80, 80);
-
                 btn.Click += (sender, EventArgs) => { openWindow_Click(sender, EventArgs, perso); };
 
                 btn.AutoSize = true;
@@ -78,26 +82,14 @@ namespace MultiDofus
                 btn.BackgroundImageLayout = ImageLayout.Center;
 
 
-                btn.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom);
+                btn.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right);
                 btn.Margin = new Padding(0, 0, 0, 0);
                 ListeBtn.Controls.Add(btn, 0, 1);
             }
 
         }
-        private void HandleHotkey()
-        {
-            AppControl.switchToNextPerso(_personnages);
-            AppControl.ChangeFocusBtn(ListeBtn);                
-        }
 
-        protected override void WndProc(ref Message m)
-        {
-            if (m.Msg == Constants.WM_HOTKEY_MSG_ID)
-                HandleHotkey();
 
-                
-            base.WndProc(ref m);
-        }
 
         private void holdTopBar(object sender, MouseEventArgs e)
         {
@@ -113,6 +105,11 @@ namespace MultiDofus
         {
             this.TopMost = false;
             _configurationWindow.Show();
+        }
+
+        private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            keyboardHookManager.Stop();
         }
     }
 }

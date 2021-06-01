@@ -102,6 +102,7 @@ namespace MultiDofus
             this.Name = "MainWindow";
             this.Text = "Multi Dofus";
             this.TopMost = true;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWindow_FormClosed);
             this.topBar.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
