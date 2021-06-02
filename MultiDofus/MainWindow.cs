@@ -33,10 +33,12 @@ namespace MultiDofus
 
             InitializeComponent();
 
+            ListeBtn.AllowDrop = true;
+
             //Sizing
             this.ListeBtn.Height = 60 * (_personnages.Count);
             this.Height = 60 * (_personnages.Count) + topBar.Height + 15;
-            this.Width = 85;
+            this.Width = ListeBtn.Width = 80;
 
             //margin
             this.topBar.Margin = new Padding(0, 0, 0, 5);
@@ -59,19 +61,20 @@ namespace MultiDofus
             optionBtn.FlatAppearance.BorderColor = Color.FromArgb(99, 134, 1);
             optionBtn.FlatAppearance.BorderSize = 1;
 
-            ListeBtn.RowCount = _personnages.Count;
-            ListeBtn.ColumnCount = 1;
 
-            
 
             for (int i = 0; i < _personnages.Count; i++)
             {
                 var perso = _personnages[i];
-                ListeBtn.RowStyles.Add(new RowStyle(SizeType.Absolute, 60));
+
+                ToolTip toolTip = new ToolTip();
 
                 Button btn = new Button();
+                btn.Height = 60;
+                btn.Width = 70;
                 btn.BackColor = Color.FromArgb(80, 80, 80);
                 btn.Click += (sender, EventArgs) => { openWindow_Click(sender, EventArgs, perso); };
+
 
                 btn.AutoSize = true;
                 btn.BackgroundImage = ((Image)(Properties.Resources.Feca));
@@ -80,13 +83,57 @@ namespace MultiDofus
 
                 btn.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right);
                 btn.Margin = new Padding(0, 0, 0, 0);
-                ListeBtn.Controls.Add(btn, 0, 1);
+
+                toolTip.SetToolTip(btn, _personnages[i].Pseudo);
+                ListeBtn.Controls.Add(btn);
             }
 
             AssingShortcuts();
+
+            foreach (Button button in ListeBtn.Controls.OfType<Button>())
+            {
+                button.MouseDown +=
+                    new MouseEventHandler(this.button_MouseDown);
+            }
         }
 
-        public TableLayoutPanel GetListePersoControl()
+        private void flowLayoutPanel_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+        }
+
+        private void flowLayoutPanel_DragDrop(object sender, DragEventArgs e)
+        {
+            Button data = (Button)e.Data.GetData(typeof(Button));
+            FlowLayoutPanel _destination = (FlowLayoutPanel)sender;
+            FlowLayoutPanel _source = (FlowLayoutPanel)data.Parent;
+
+            // Add control to panel
+            _destination.Controls.Add(data);
+
+
+            // Reorder
+            Point p = _destination.PointToClient(new Point(e.X, e.Y));
+            var item = _destination.GetChildAtPoint(p);
+            int index = _destination.Controls.GetChildIndex(item, false);
+            _destination.Controls.SetChildIndex(data, index);
+
+            // Invalidate to paint!
+            _destination.Invalidate();
+            _source.Invalidate();
+        }
+
+        private void button_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && e.Clicks == 1)
+            {
+                var control = sender as Control;
+                this.DoDragDrop(control, DragDropEffects.Move);
+            }
+        }
+
+
+        public FlowLayoutPanel GetListePersoControl()
         {
             return ListeBtn;
         }

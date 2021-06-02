@@ -29,27 +29,13 @@ namespace MultiDofus
         /// </summary>
         private void InitializeComponent()
         {
-            this.ListeBtn = new System.Windows.Forms.TableLayoutPanel();
             this.topBar = new System.Windows.Forms.Panel();
             this.optionBtn = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.ListeBtn = new System.Windows.Forms.FlowLayoutPanel();
             this.topBar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // ListeBtn
-            // 
-            this.ListeBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ListeBtn.BackColor = System.Drawing.Color.White;
-            this.ListeBtn.ColumnCount = 1;
-            this.ListeBtn.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.ListeBtn.Location = new System.Drawing.Point(3, 29);
-            this.ListeBtn.Name = "ListeBtn";
-            this.ListeBtn.RowCount = 1;
-            this.ListeBtn.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.ListeBtn.Size = new System.Drawing.Size(54, 321);
-            this.ListeBtn.TabIndex = 0;
             // 
             // topBar
             // 
@@ -89,6 +75,15 @@ namespace MultiDofus
             this.tableLayoutPanel1.Size = new System.Drawing.Size(60, 353);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
+            // ListeBtn
+            // 
+            this.ListeBtn.Location = new System.Drawing.Point(3, 29);
+            this.ListeBtn.Name = "ListeBtn";
+            this.ListeBtn.Size = new System.Drawing.Size(54, 321);
+            this.ListeBtn.TabIndex = 2;
+            this.ListeBtn.DragDrop += new System.Windows.Forms.DragEventHandler(this.flowLayoutPanel_DragDrop);
+            this.ListeBtn.DragEnter += new System.Windows.Forms.DragEventHandler(this.flowLayoutPanel_DragEnter);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -109,11 +104,10 @@ namespace MultiDofus
         }
 
         #endregion
-
-        private System.Windows.Forms.TableLayoutPanel ListeBtn;
         private System.Windows.Forms.Panel topBar;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button optionBtn;
+        private System.Windows.Forms.FlowLayoutPanel ListeBtn;
     }
 }
 
