@@ -24,12 +24,12 @@ namespace MultiDofus.Classes
 
         public static void switchToNextPerso(List<Perso> persos)
         {
-            if (persos.Count - 1 == lastPersoSelectedIndex)
+            if (persos.Count - 1 == lastPersoSelectedIndex | lastPersoSelectedIndex > persos.Count - 1)
                 lastPersoSelectedIndex = 0;
             else
                 lastPersoSelectedIndex++;
 
-            openPersoWindow(persos[lastPersoSelectedIndex]);
+            openPersoWindow(persos[lastPersoSelectedIndex],lastPersoSelectedIndex);
         }
 
         public static void switchToPreviousPerso(List<Perso> persos)
@@ -39,11 +39,12 @@ namespace MultiDofus.Classes
             else
                 lastPersoSelectedIndex--;
 
-            openPersoWindow(persos[lastPersoSelectedIndex]);
+            openPersoWindow(persos[lastPersoSelectedIndex], lastPersoSelectedIndex);
         }
 
-        public static void openPersoWindow(Perso perso)
+        public static void openPersoWindow(Perso perso,int index)
         {
+            lastPersoSelectedIndex = index;
             user32.SwitchToThisWindow(perso.ProcessHandler, true);
         }
         //----------------------------------------------------

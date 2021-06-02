@@ -30,6 +30,7 @@ namespace MultiDofus
         private void InitializeComponent()
         {
             this.topBar = new System.Windows.Forms.Panel();
+            this.lockBtn = new System.Windows.Forms.Button();
             this.optionBtn = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.ListeBtn = new System.Windows.Forms.FlowLayoutPanel();
@@ -39,12 +40,25 @@ namespace MultiDofus
             // 
             // topBar
             // 
+            this.topBar.Controls.Add(this.lockBtn);
             this.topBar.Controls.Add(this.optionBtn);
             this.topBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.topBar.Location = new System.Drawing.Point(3, 3);
             this.topBar.Name = "topBar";
             this.topBar.Size = new System.Drawing.Size(54, 20);
             this.topBar.TabIndex = 1;
+            // 
+            // lockBtn
+            // 
+            this.lockBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lockBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lockBtn.Location = new System.Drawing.Point(0, 0);
+            this.lockBtn.Name = "lockBtn";
+            this.lockBtn.Size = new System.Drawing.Size(22, 20);
+            this.lockBtn.TabIndex = 1;
+            this.lockBtn.UseVisualStyleBackColor = true;
+            this.lockBtn.Click += new System.EventHandler(this.lockBtn_Click);
             // 
             // optionBtn
             // 
@@ -108,6 +122,7 @@ namespace MultiDofus
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button optionBtn;
         private System.Windows.Forms.FlowLayoutPanel ListeBtn;
+        private System.Windows.Forms.Button lockBtn;
     }
 }
 

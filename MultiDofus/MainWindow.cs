@@ -11,6 +11,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MultiDofus.Extensions;
+using System.Reflection;
 
 namespace MultiDofus
 {
@@ -50,6 +52,7 @@ namespace MultiDofus
             this.topBar.BackColor = Color.FromArgb(58, 59, 59);
             this.topBar.MouseDown += new MouseEventHandler(holdTopBar);
             this.optionBtn.BackColor = Color.FromArgb(199, 238, 2);
+            this.lockBtn.BackColor = Color.FromArgb(199, 238, 2);
 
             //Style            
             var bm = new Bitmap(((Image)(Properties.Resources.gear)), new Size(optionBtn.Width - 6, optionBtn.Height - 8));
@@ -60,6 +63,16 @@ namespace MultiDofus
             optionBtn.FlatStyle = FlatStyle.Flat;
             optionBtn.FlatAppearance.BorderColor = Color.FromArgb(99, 134, 1);
             optionBtn.FlatAppearance.BorderSize = 1;
+
+            var bmLock = new Bitmap(((Image)(Properties.Resources._lock)), new Size(optionBtn.Width - 6, optionBtn.Height - 8));
+            lockBtn.BackgroundImage = bmLock;
+            lockBtn.Text = null;
+            lockBtn.BackgroundImageLayout = ImageLayout.Center;
+
+            lockBtn.FlatStyle = FlatStyle.Flat;
+            lockBtn.FlatAppearance.BorderColor = Color.FromArgb(99, 134, 1);
+            lockBtn.FlatAppearance.BorderSize = 1;
+            lockBtn.Tag = "lock";
 
 
 
@@ -90,11 +103,7 @@ namespace MultiDofus
 
             AssingShortcuts();
 
-            foreach (Button button in ListeBtn.Controls.OfType<Button>())
-            {
-                button.MouseDown +=
-                    new MouseEventHandler(this.button_MouseDown);
-            }
+
         }
 
         private void flowLayoutPanel_DragEnter(object sender, DragEventArgs e)
@@ -108,28 +117,44 @@ namespace MultiDofus
             FlowLayoutPanel _destination = (FlowLayoutPanel)sender;
             FlowLayoutPanel _source = (FlowLayoutPanel)data.Parent;
 
-            // Add control to panel
-            _destination.Controls.Add(data);
-
-
             // Reorder
             Point p = _destination.PointToClient(new Point(e.X, e.Y));
-            var item = _destination.GetChildAtPoint(p);
-            int index = _destination.Controls.GetChildIndex(item, false);
-            _destination.Controls.SetChildIndex(data, index);
+            Button item = (Button)_destination.GetChildAtPoint(p);
 
-            // Invalidate to paint!
-            _destination.Invalidate();
-            _source.Invalidate();
+            if (item != data)
+            {
+                AppControl.lastPersoSelectedIndex = _destination.Controls.GetChildIndex(item, false);
+
+                int index = _destination.Controls.GetChildIndex(item, false);
+
+                _personnages.Move(_destination.Controls.GetChildIndex(data, false),
+                    AppControl.lastPersoSelectedIndex);
+
+                //data.ClearEventInvocations("Click");
+                //data.Click += (sender, EventArgs) => { openWindow_Click(sender, EventArgs, _personnages[index]); }; ;
+
+                 
+                _destination.Controls.SetChildIndex(data, index);
+
+                // Invalidate to paint!
+                _destination.Invalidate();
+                _source.Invalidate();
+            }
+            else
+            {
+                data.PerformClick();
+            }
+        }
+
+        private void Data_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void button_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && e.Clicks == 1)
-            {
-                var control = sender as Control;
-                this.DoDragDrop(control, DragDropEffects.Move);
-            }
+            var control = sender as Control;
+            this.DoDragDrop(control, DragDropEffects.Move);
         }
 
 
@@ -208,7 +233,7 @@ namespace MultiDofus
         /// <param name="perso"></param>
         private void openWindow_Click(object sender, EventArgs e, Perso perso)
         {
-            AppControl.openPersoWindow(perso);
+            AppControl.openPersoWindow(perso, _personnages.IndexOf(perso));
         }
         /// <summary>
         /// Open settings
@@ -222,6 +247,42 @@ namespace MultiDofus
 
             ConfigurationWindow _configurationWindow = new ConfigurationWindow(this);
             _configurationWindow.Show();
+        }
+
+        private void lockBtn_Click(object sender, EventArgs e)
+        {
+            if (lockBtn.Tag.ToString() == "lock")
+            {
+                lockBtn.BackgroundImage = new Bitmap(((Image)(Properties.Resources._unlock)), new Size(optionBtn.Width - 6, optionBtn.Height - 8));
+                lockBtn.Tag = "unlock";
+                AllowDragButtons();
+                lockBtn.Refresh();
+            }
+            else
+            {
+                lockBtn.BackgroundImage = new Bitmap(((Image)(Properties.Resources._lock)), new Size(optionBtn.Width - 6, optionBtn.Height - 8));
+                lockBtn.Tag = "lock";
+                ForbidDragButtons();
+                lockBtn.Refresh();
+            }
+        }
+
+        private void AllowDragButtons()
+        {
+            foreach (Button button in ListeBtn.Controls.OfType<Button>())
+            {
+                button.MouseDown +=
+                    new MouseEventHandler(this.button_MouseDown);
+            }
+        }
+
+        private void ForbidDragButtons()
+        {
+            foreach (Button button in ListeBtn.Controls.OfType<Button>())
+            {
+                button.MouseDown -=
+                    new MouseEventHandler(this.button_MouseDown);
+            }
         }
     }
 }
