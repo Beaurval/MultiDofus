@@ -29,6 +29,11 @@ namespace MultiDofus
             this._direction = direction;
         }
 
+        /// <summary>
+        /// Shortcut assignement 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void fShortcut_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Tab)
@@ -132,16 +137,18 @@ namespace MultiDofus
             {
                 e.Handled = false;
                 e.SuppressKeyPress = true;
-
                 fShortcut.Text = "";
             }
         }
-
+        /// <summary>
+        /// On close bind form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void closeKeyBindForm_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void BindKey_FormClosed(object sender, FormClosedEventArgs e)
         {
             _config.MajShortcuts();

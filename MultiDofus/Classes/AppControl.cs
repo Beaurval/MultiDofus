@@ -10,13 +10,16 @@ namespace MultiDofus.Classes
 {
     public static class AppControl
     {
+        //Windows funtions in WIN32
         [DllImport("user32.dll")]
         static extern IntPtr DefWindowProc(IntPtr hWnd, uint uMsg, UIntPtr wParam, IntPtr lParam);
         [DllImport("user32.dll")]
         static extern bool ReleaseCapture(IntPtr hwnd);
         const uint WM_SYSCOMMAND = 0x112;
         const uint MOUSE_MOVE = 0xF012;
+        //----------------------------------------------------
 
+        //Character & windows controls
         public static int lastPersoSelectedIndex = 0;
 
         public static void switchToNextPerso(List<Perso> persos)
@@ -28,6 +31,7 @@ namespace MultiDofus.Classes
 
             openPersoWindow(persos[lastPersoSelectedIndex]);
         }
+
         public static void switchToPreviousPerso(List<Perso> persos)
         {
             if (0 == lastPersoSelectedIndex)
@@ -42,7 +46,7 @@ namespace MultiDofus.Classes
         {
             user32.SwitchToThisWindow(perso.ProcessHandler, true);
         }
-
+        //----------------------------------------------------
 
 
         // ----------- MOUSE CONTROL TOP BAR

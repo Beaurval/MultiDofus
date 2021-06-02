@@ -91,18 +91,25 @@ namespace MultiDofus
             return ListeBtn;
         }
 
+        /// <summary>
+        /// Switch to next character's window (0 to n way)
+        /// </summary>
         public void SwitchWindow()
         {
             AppControl.switchToNextPerso(_personnages);
             AppControl.ChangeFocusBtn(GetListePersoControl());
         }
-
+        /// <summary>
+        /// Switch to next character's window (n to 0 way)
+        /// </summary>
         public void SwitchWindowDown()
         {
             AppControl.switchToPreviousPerso(_personnages);
             AppControl.ChangeFocusBtn(GetListePersoControl());
         }
-
+        /// <summary>
+        /// Bind shotcuts in settings
+        /// </summary>
         public void AssingShortcuts()
         {
             keyboardHookManager.UnregisterAll();
@@ -137,17 +144,30 @@ namespace MultiDofus
                 keyboardHookManager.RegisterHotkey(keyDown, SwitchWindowDown);
             }
         }
-
+        /// <summary>
+        /// Event for drag main window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void holdTopBar(object sender, MouseEventArgs e)
         {
             AppControl.TopBarHolded(this, sender);
         }
-
+        /// <summary>
+        /// Open character's window when user has clicked on its button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="perso"></param>
         private void openWindow_Click(object sender, EventArgs e, Perso perso)
         {
             AppControl.openPersoWindow(perso);
         }
-
+        /// <summary>
+        /// Open settings
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void optionBtn_Click(object sender, EventArgs e)
         {
             this.TopMost = false;

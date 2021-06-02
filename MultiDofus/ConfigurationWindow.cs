@@ -40,7 +40,11 @@ namespace MultiDofus
         {
             formulaire.Controls.Clear();
         }
-
+        /// <summary>
+        /// User cliked OK
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void okBtn_Click(object sender, EventArgs e)
         {
             RefreshShortcuts();
@@ -48,7 +52,11 @@ namespace MultiDofus
             _mainWindow.TopMost = true;
             this.Close();
         }
-
+        /// <summary>
+        /// User cliked cancel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancelBtn_Click(object sender, EventArgs e)
         {
             ReloadSettings();
@@ -56,6 +64,9 @@ namespace MultiDofus
             this.Close();
         }
 
+        /// <summary>
+        /// Call AssingShortcuts again in order to refresh
+        /// </summary>
         private void RefreshShortcuts()
         {
             _mainWindow.AssingShortcuts();
@@ -66,19 +77,29 @@ namespace MultiDofus
             _mainWindow.TopMost = true;
             _mainWindow.keyboardHookManager.Start();
         }
-
+        /// <summary>
+        /// Save settings
+        /// </summary>
         private void SaveSettings()
         {
             Properties.SwitchCharacterDown.Default.Save();
             Properties.SwitchCharacterUp.Default.Save();
         }
 
+        /// <summary>
+        /// Reload settings
+        /// </summary>
         private void ReloadSettings()
         {
             Properties.SwitchCharacterDown.Default.Reload();
             Properties.SwitchCharacterUp.Default.Reload();
         }
 
+        /// <summary>
+        /// Used has cliked a shortcut btn
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void switchWindowUpBtn_Click(object sender, EventArgs e)
         {
             Control senderControl = (Control)sender;
