@@ -18,18 +18,25 @@ namespace MultiDofus
         private MainWindow _mainWindow;
         public KeyboardHookManager keyboardHookManager;
 
+
         public ConfigurationWindow(MainWindow mainWindow)
         {
             InitializeComponent();
+            MajShortcuts();
             _mainWindow = mainWindow;
 
             //Keyboard shortcuts
             keyboardHookManager = new KeyboardHookManager();
             keyboardHookManager.Start();
-                                                            
 
             //optionList.Items.AddRange(_mainWindow._personnages.Select(x => x.Pseudo).ToArray());
         }
+
+        public void MajShortcuts()
+        {
+            switchWindowUpBtn.Text = Properties.Settings.Default.SwitchWindowsUpText;
+        }
+
 
         public void SwitchWindow()
         {
@@ -37,10 +44,7 @@ namespace MultiDofus
             AppControl.ChangeFocusBtn(_mainWindow.GetListePersoControl());
         }
 
-        private void ConfigurationWindow_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            _mainWindow.TopMost = true;
-        }
+
 
         private void optionList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -51,6 +55,55 @@ namespace MultiDofus
         {
             BindKey bindKey = new BindKey(this);
             bindKey.Show();
+        }
+
+        private void okBtn_Click(object sender, EventArgs e)
+        {
+            AssingShortcuts();
+            this.Hide();
+            Properties.Settings.Default.Save();
+            _mainWindow.TopMost = true;
+        }
+
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Properties.Settings.Default.Reload();
+            _mainWindow.TopMost = true;
+        }
+
+
+
+
+        private void AssingShortcuts()
+        {
+            keyboardHookManager.UnregisterAll();
+
+            int settingModifierKey = Properties.Settings.Default.SwitchWindowsUpModifier;
+            int key = Properties.Settings.Default.SwitchWindowsUpKey;
+
+            if (settingModifierKey != 0)
+            {
+                ModifierKeys modifier = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), settingModifierKey.ToString(), true);
+
+                keyboardHookManager.RegisterHotkey(modifier, key, hook_KeyPressed);
+            }
+            else
+            {
+                keyboardHookManager.RegisterHotkey(key, hook_KeyPressed);
+            }
+        }
+
+        void hook_KeyPressed()
+        {
+            AppControl.switchToNextPerso(_mainWindow._personnages);
+            AppControl.ChangeFocusBtn(_mainWindow.GetListePersoControl());
+        }
+
+
+        private void ConfigurationWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _mainWindow.TopMost = true;
         }
     }
 }

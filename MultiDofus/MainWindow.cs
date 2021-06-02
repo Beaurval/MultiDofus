@@ -10,14 +10,12 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using NonInvasiveKeyboardHookLibrary;
 
 namespace MultiDofus
 {
     public partial class MainWindow : Form
     {
-        private ConfigurationWindow _configurationWindow;
-        
+        ConfigurationWindow _configurationWindow;
         //Liste des personnages
         public readonly List<Perso> _personnages;
 
@@ -26,7 +24,6 @@ namespace MultiDofus
             _personnages = personnages;
             InitializeComponent();
             _configurationWindow = new ConfigurationWindow(this);
-
 
             //Sizing
             this.ListeBtn.Height = 60 * (_personnages.Count);
@@ -99,11 +96,6 @@ namespace MultiDofus
         {
             this.TopMost = false;
             _configurationWindow.Show();
-        }
-
-        private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            _configurationWindow.keyboardHookManager.Stop();
         }
     }
 }

@@ -14,10 +14,13 @@ namespace MultiDofus
     public partial class BindKey : Form
     {
         ConfigurationWindow _config;
+        private int keySelected;
+        private int? modifierSelected;
 
         public BindKey(ConfigurationWindow config)
         {
             InitializeComponent();
+            this.fShortcut.Select();
             _config = config;
             this.KeyPreview = true;
             this.closeKeyBindForm.TabStop = false;
@@ -36,30 +39,30 @@ namespace MultiDofus
 
                 if (modifierKeys != Keys.None && pressedKey != Keys.None)
                 {
-                    NonInvasiveKeyboardHookLibrary.ModifierKeys keyControlPressed;
+                    int keyControlPressed;
                     //do stuff with pressed and modifier keys
                     var converter = new KeysConverter();
-                    fShortcut.Text = converter.ConvertToString(e.KeyData);
+                    
 
                     switch (modifierKeys)
                     {
                         case Keys.Control:
-                            keyControlPressed = NonInvasiveKeyboardHookLibrary.ModifierKeys.Control;
+                            keyControlPressed = 2;
                             break;
                         case Keys.Alt:
-                            keyControlPressed = NonInvasiveKeyboardHookLibrary.ModifierKeys.Alt;
+                            keyControlPressed = 1;
                             break;
                         case Keys.Shift:
-                            keyControlPressed = NonInvasiveKeyboardHookLibrary.ModifierKeys.Shift;
+                            keyControlPressed = 4;
                             break;
                         case Keys.LWin:
-                            keyControlPressed = NonInvasiveKeyboardHookLibrary.ModifierKeys.WindowsKey;
+                            keyControlPressed = 8;
                             break;
                         case Keys.RWin:
-                            keyControlPressed = NonInvasiveKeyboardHookLibrary.ModifierKeys.WindowsKey;
+                            keyControlPressed = 8;
                             break;
                         default:
-                            keyControlPressed = NonInvasiveKeyboardHookLibrary.ModifierKeys.Control;
+                            keyControlPressed = 2;
                             break;
                     }
 
@@ -69,17 +72,39 @@ namespace MultiDofus
                         && pressedKey != Keys.RWin
                         && pressedKey != Keys.ShiftKey)
                     {
-                        _config.keyboardHookManager
-                        .RegisterHotkey(keyControlPressed, e.KeyValue, () =>
-                        {
-                            _config.SwitchWindow();
-                        });
+                        //Save shortcut for character swap here
+                        keySelected = e.KeyValue;
+                        modifierSelected = keyControlPressed;
+
+
+                        fShortcut.Text = converter.ConvertToString(e.KeyData);
+                        fShortcut.Refresh();
+
+                        Properties.Settings.Default.SwitchWindowsUpModifier = modifierSelected.HasValue ? modifierSelected.Value : 0;
+                        Properties.Settings.Default.SwitchWindowsUpKey = keySelected;
+                        Properties.Settings.Default.SwitchWindowsUpText = fShortcut.Text;
+                        //Properties.Settings.Default.Save();
+
+                        System.Threading.Thread.Sleep(800);
+                        this.Close();
                     }
                 }
                 else if (modifierKeys == Keys.None && pressedKey != Keys.None)
                 {
                     var converter = new KeysConverter();
                     fShortcut.Text = converter.ConvertToString(e.KeyData);
+                    fShortcut.Refresh();
+
+                    //Save shortcut for character swap here
+                    keySelected = e.KeyValue;
+                    modifierSelected = null;
+
+                    Properties.Settings.Default.SwitchWindowsUpModifier = modifierSelected.HasValue ? modifierSelected.Value : 0;
+                    Properties.Settings.Default.SwitchWindowsUpKey = keySelected;
+                    Properties.Settings.Default.SwitchWindowsUpText = fShortcut.Text;
+
+                    System.Threading.Thread.Sleep(800);
+                    this.Close();
                 }
             }
             else
@@ -94,6 +119,11 @@ namespace MultiDofus
         private void closeKeyBindForm_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void BindKey_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _config.MajShortcuts();
         }
     }
 }
