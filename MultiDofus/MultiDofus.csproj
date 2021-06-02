@@ -17,10 +17,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Properties\Settings.Designer.cs">
+    <Compile Update="Properties\SwitchCharacterDown.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
+      <DependentUpon>SwitchCharacterDown.settings</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\SwitchCharacterUp.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SwitchCharacterUp.settings</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -32,9 +37,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Properties\Settings.settings">
+    <None Update="Properties\SwitchCharacterDown.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <LastGenOutput>SwitchCharacterDown.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Properties\SwitchCharacterUp.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>SwitchCharacterUp.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

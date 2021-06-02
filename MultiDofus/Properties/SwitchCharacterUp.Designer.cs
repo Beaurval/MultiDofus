@@ -13,11 +13,11 @@ namespace MultiDofus.Properties {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class SwitchCharacterUp : global::System.Configuration.ApplicationSettingsBase {
         
-        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+        private static SwitchCharacterUp defaultInstance = ((SwitchCharacterUp)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new SwitchCharacterUp())));
         
-        public static Settings Default {
+        public static SwitchCharacterUp Default {
             get {
                 return defaultInstance;
             }
@@ -26,48 +26,36 @@ namespace MultiDofus.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int SwitchWindowsUpModifier {
+        public int Modifier {
             get {
-                return ((int)(this["SwitchWindowsUpModifier"]));
+                return ((int)(this["Modifier"]));
             }
             set {
-                this["SwitchWindowsUpModifier"] = value;
+                this["Modifier"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int SwitchWindowsUpKey {
+        public int Key {
             get {
-                return ((int)(this["SwitchWindowsUpKey"]));
+                return ((int)(this["Key"]));
             }
             set {
-                this["SwitchWindowsUpKey"] = value;
+                this["Key"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SwitchWindowsUpText {
+        public string Text {
             get {
-                return ((string)(this["SwitchWindowsUpText"]));
+                return ((string)(this["Text"]));
             }
             set {
-                this["SwitchWindowsUpText"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("00000000-0000-0000-0000-000000000000")]
-        public global::System.Guid SwitchWindowsUpHookId {
-            get {
-                return ((global::System.Guid)(this["SwitchWindowsUpHookId"]));
-            }
-            set {
-                this["SwitchWindowsUpHookId"] = value;
+                this["Text"] = value;
             }
         }
     }

@@ -16,32 +16,22 @@ namespace MultiDofus
     public partial class ConfigurationWindow : Form
     {
         private MainWindow _mainWindow;
-        public KeyboardHookManager keyboardHookManager;
-
 
         public ConfigurationWindow(MainWindow mainWindow)
         {
             InitializeComponent();
-            MajShortcuts();
             _mainWindow = mainWindow;
-
-            //Keyboard shortcuts
-            keyboardHookManager = new KeyboardHookManager();
-            keyboardHookManager.Start();
+            MajShortcuts();
 
             //optionList.Items.AddRange(_mainWindow._personnages.Select(x => x.Pseudo).ToArray());
         }
-
+        /// <summary>
+        /// Mise à jour des raccourcis
+        /// </summary>
         public void MajShortcuts()
         {
-            switchWindowUpBtn.Text = Properties.Settings.Default.SwitchWindowsUpText;
-        }
-
-
-        public void SwitchWindow()
-        {
-            AppControl.switchToNextPerso(_mainWindow._personnages);
-            AppControl.ChangeFocusBtn(_mainWindow.GetListePersoControl());
+            switchWindowUpBtn.Text = Properties.SwitchCharacterUp.Default.Text;
+            switchWindowDownBtn.Text = Properties.SwitchCharacterDown.Default.Text;
         }
 
 
@@ -51,59 +41,57 @@ namespace MultiDofus
             formulaire.Controls.Clear();
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            BindKey bindKey = new BindKey(this);
-            bindKey.Show();
-        }
-
         private void okBtn_Click(object sender, EventArgs e)
         {
-            AssingShortcuts();
-            this.Hide();
-            Properties.Settings.Default.Save();
+            RefreshShortcuts();
+            SaveSettings();
             _mainWindow.TopMost = true;
+            this.Close();
         }
 
         private void cancelBtn_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Properties.Settings.Default.Reload();
+            ReloadSettings();
             _mainWindow.TopMost = true;
+            this.Close();
         }
 
-
-
-
-        private void AssingShortcuts()
+        private void RefreshShortcuts()
         {
-            keyboardHookManager.UnregisterAll();
-
-            int settingModifierKey = Properties.Settings.Default.SwitchWindowsUpModifier;
-            int key = Properties.Settings.Default.SwitchWindowsUpKey;
-
-            if (settingModifierKey != 0)
-            {
-                ModifierKeys modifier = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), settingModifierKey.ToString(), true);
-
-                keyboardHookManager.RegisterHotkey(modifier, key, hook_KeyPressed);
-            }
-            else
-            {
-                keyboardHookManager.RegisterHotkey(key, hook_KeyPressed);
-            }
+            _mainWindow.AssingShortcuts();
         }
-
-        void hook_KeyPressed()
-        {
-            AppControl.switchToNextPerso(_mainWindow._personnages);
-            AppControl.ChangeFocusBtn(_mainWindow.GetListePersoControl());
-        }
-
 
         private void ConfigurationWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
             _mainWindow.TopMost = true;
+            _mainWindow.keyboardHookManager.Start();
+        }
+
+        private void SaveSettings()
+        {
+            Properties.SwitchCharacterDown.Default.Save();
+            Properties.SwitchCharacterUp.Default.Save();
+        }
+
+        private void ReloadSettings()
+        {
+            Properties.SwitchCharacterDown.Default.Reload();
+            Properties.SwitchCharacterUp.Default.Reload();
+        }
+
+        private void switchWindowUpBtn_Click(object sender, EventArgs e)
+        {
+            Control senderControl = (Control)sender;
+            if (senderControl.Name == "switchWindowUpBtn")
+            {
+                BindKey bindKey = new BindKey(this,"up");
+                bindKey.Show();
+            }
+            else if(senderControl.Name == "switchWindowDownBtn")
+            {
+                BindKey bindKey = new BindKey(this, "down");
+                bindKey.Show();
+            }
         }
     }
 }

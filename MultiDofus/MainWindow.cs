@@ -1,4 +1,5 @@
 ﻿using MultiDofus.Classes;
+using NonInvasiveKeyboardHookLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,15 +16,22 @@ namespace MultiDofus
 {
     public partial class MainWindow : Form
     {
-        ConfigurationWindow _configurationWindow;
+        //Hotkeys
+        public KeyboardHookManager keyboardHookManager;
+
         //Liste des personnages
         public readonly List<Perso> _personnages;
 
         public MainWindow(List<Perso> personnages)
         {
+            //Keyboard shortcuts
+            keyboardHookManager = new KeyboardHookManager();
+            keyboardHookManager.Start();
+
+            //Characters
             _personnages = personnages;
+
             InitializeComponent();
-            _configurationWindow = new ConfigurationWindow(this);
 
             //Sizing
             this.ListeBtn.Height = 60 * (_personnages.Count);
@@ -75,11 +83,59 @@ namespace MultiDofus
                 ListeBtn.Controls.Add(btn, 0, 1);
             }
 
+            AssingShortcuts();
         }
 
         public TableLayoutPanel GetListePersoControl()
         {
             return ListeBtn;
+        }
+
+        public void SwitchWindow()
+        {
+            AppControl.switchToNextPerso(_personnages);
+            AppControl.ChangeFocusBtn(GetListePersoControl());
+        }
+
+        public void SwitchWindowDown()
+        {
+            AppControl.switchToPreviousPerso(_personnages);
+            AppControl.ChangeFocusBtn(GetListePersoControl());
+        }
+
+        public void AssingShortcuts()
+        {
+            keyboardHookManager.UnregisterAll();
+
+            int modifierUp = Properties.SwitchCharacterUp.Default.Modifier;
+            int keyUp = Properties.SwitchCharacterUp.Default.Key;
+
+            //Shortbut with modifier
+            if (modifierUp != 0)
+            {
+                ModifierKeys modifierUpKeys = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), modifierUp.ToString(), true);
+                keyboardHookManager.RegisterHotkey(modifierUpKeys, keyUp, SwitchWindow);
+            }
+            //Shortcut without modifier
+            else
+            {
+                keyboardHookManager.RegisterHotkey(keyUp, SwitchWindow);
+            }
+
+            int modifierDown = Properties.SwitchCharacterDown.Default.Modifier;
+            int keyDown = Properties.SwitchCharacterDown.Default.Key;
+
+            //Shortbut with modifier
+            if (modifierDown != 0)
+            {
+                ModifierKeys modifierDownKeys = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), modifierDown.ToString(), true);
+                keyboardHookManager.RegisterHotkey(modifierDownKeys, keyDown, SwitchWindowDown);
+            }
+            //Shortcut without modifier
+            else
+            {
+                keyboardHookManager.RegisterHotkey(keyDown, SwitchWindowDown);
+            }
         }
 
         private void holdTopBar(object sender, MouseEventArgs e)
@@ -95,6 +151,9 @@ namespace MultiDofus
         private void optionBtn_Click(object sender, EventArgs e)
         {
             this.TopMost = false;
+            keyboardHookManager.Stop();
+
+            ConfigurationWindow _configurationWindow = new ConfigurationWindow(this);
             _configurationWindow.Show();
         }
     }

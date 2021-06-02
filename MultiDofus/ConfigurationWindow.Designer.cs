@@ -37,7 +37,7 @@ namespace MultiDofus
             this.formulaire = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.button6 = new System.Windows.Forms.Button();
+            this.switchWindowDownBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.switchWindowUpBtn = new System.Windows.Forms.Button();
             this.formulaire.SuspendLayout();
@@ -103,7 +103,7 @@ namespace MultiDofus
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.button6);
+            this.groupBox1.Controls.Add(this.switchWindowDownBtn);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.switchWindowUpBtn);
             this.groupBox1.Location = new System.Drawing.Point(13, 12);
@@ -122,14 +122,15 @@ namespace MultiDofus
             this.label2.TabIndex = 7;
             this.label2.Text = "Changer de fenêtre sens inverse";
             // 
-            // button6
+            // switchWindowDownBtn
             // 
-            this.button6.Location = new System.Drawing.Point(218, 55);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(110, 23);
-            this.button6.TabIndex = 6;
-            this.button6.Text = "Non assigné";
-            this.button6.UseVisualStyleBackColor = true;
+            this.switchWindowDownBtn.Location = new System.Drawing.Point(218, 55);
+            this.switchWindowDownBtn.Name = "switchWindowDownBtn";
+            this.switchWindowDownBtn.Size = new System.Drawing.Size(110, 23);
+            this.switchWindowDownBtn.TabIndex = 6;
+            this.switchWindowDownBtn.Text = "Non assigné";
+            this.switchWindowDownBtn.UseVisualStyleBackColor = true;
+            this.switchWindowDownBtn.Click += new System.EventHandler(this.switchWindowUpBtn_Click);
             // 
             // label1
             // 
@@ -149,7 +150,7 @@ namespace MultiDofus
             this.switchWindowUpBtn.TabIndex = 4;
             this.switchWindowUpBtn.Text = "Non assigné";
             this.switchWindowUpBtn.UseVisualStyleBackColor = true;
-            this.switchWindowUpBtn.Click += new System.EventHandler(this.button5_Click);
+            this.switchWindowUpBtn.Click += new System.EventHandler(this.switchWindowUpBtn_Click);
             // 
             // ConfigurationWindow
             // 
@@ -162,7 +163,7 @@ namespace MultiDofus
             this.Controls.Add(this.okBtn);
             this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.formulaire);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "ConfigurationWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -185,7 +186,7 @@ namespace MultiDofus
         private System.Windows.Forms.Button switchWindowUpBtn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button switchWindowDownBtn;
         private System.Windows.Forms.Label label1;
     }
 }

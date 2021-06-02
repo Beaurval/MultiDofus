@@ -16,8 +16,9 @@ namespace MultiDofus
         ConfigurationWindow _config;
         private int keySelected;
         private int? modifierSelected;
+        private string _direction;
 
-        public BindKey(ConfigurationWindow config)
+        public BindKey(ConfigurationWindow config,string direction)
         {
             InitializeComponent();
             this.fShortcut.Select();
@@ -25,6 +26,7 @@ namespace MultiDofus
             this.KeyPreview = true;
             this.closeKeyBindForm.TabStop = false;
             this.fShortcut.TabStop = false;
+            this._direction = direction;
         }
 
         private void fShortcut_KeyDown(object sender, KeyEventArgs e)
@@ -80,9 +82,19 @@ namespace MultiDofus
                         fShortcut.Text = converter.ConvertToString(e.KeyData);
                         fShortcut.Refresh();
 
-                        Properties.Settings.Default.SwitchWindowsUpModifier = modifierSelected.HasValue ? modifierSelected.Value : 0;
-                        Properties.Settings.Default.SwitchWindowsUpKey = keySelected;
-                        Properties.Settings.Default.SwitchWindowsUpText = fShortcut.Text;
+                        if(_direction == "up")
+                        {
+                            Properties.SwitchCharacterUp.Default.Modifier = modifierSelected.HasValue ? modifierSelected.Value : 0;
+                            Properties.SwitchCharacterUp.Default.Key = keySelected;
+                            Properties.SwitchCharacterUp.Default.Text = fShortcut.Text;
+                        }
+                        else if(_direction == "down")
+                        {
+                            Properties.SwitchCharacterDown.Default.Modifier = modifierSelected.HasValue ? modifierSelected.Value : 0;
+                            Properties.SwitchCharacterDown.Default.Key = keySelected;
+                            Properties.SwitchCharacterDown.Default.Text = fShortcut.Text;
+                        }
+                        
                         //Properties.Settings.Default.Save();
 
                         System.Threading.Thread.Sleep(800);
@@ -99,9 +111,18 @@ namespace MultiDofus
                     keySelected = e.KeyValue;
                     modifierSelected = null;
 
-                    Properties.Settings.Default.SwitchWindowsUpModifier = modifierSelected.HasValue ? modifierSelected.Value : 0;
-                    Properties.Settings.Default.SwitchWindowsUpKey = keySelected;
-                    Properties.Settings.Default.SwitchWindowsUpText = fShortcut.Text;
+                    if (_direction == "up")
+                    {
+                        Properties.SwitchCharacterUp.Default.Modifier = modifierSelected.HasValue ? modifierSelected.Value : 0;
+                        Properties.SwitchCharacterUp.Default.Key = keySelected;
+                        Properties.SwitchCharacterUp.Default.Text = fShortcut.Text;
+                    }
+                    else if (_direction == "down")
+                    {
+                        Properties.SwitchCharacterDown.Default.Modifier = modifierSelected.HasValue ? modifierSelected.Value : 0;
+                        Properties.SwitchCharacterDown.Default.Key = keySelected;
+                        Properties.SwitchCharacterDown.Default.Text = fShortcut.Text;
+                    }
 
                     System.Threading.Thread.Sleep(800);
                     this.Close();
